@@ -8,4 +8,8 @@ router.get("/new", listingCtrl.new);
 
 router.post("/", listingCtrl.create);
 
+router.get("/:listingId", listingCtrl.show);
+
+router.delete("/:listingId", listingCtrl.delete);
+
 module.exports = router;
