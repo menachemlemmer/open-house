@@ -16,4 +16,6 @@ router.get("/:listingId/edit", listingCtrl.edit);
 
 router.put("/:listingId", listingCtrl.update);
 
+router.post("/:listingId/favorited-by/:userId", listingCtrl.favorite);
+
 module.exports = router;

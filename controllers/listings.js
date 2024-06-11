@@ -31,8 +31,13 @@ async function show(req, res) {
     const populatedListing = await Listing.findById(
       req.params.listingId
     ).populate("owner");
+    const userHasFavorited = populatedListing.favoritedByUsers.some((user) =>
+      user.equals(req.session.user._id)
+    );
+
     res.render("listings/show.ejs", {
       listing: populatedListing,
+      userHasFavorited,
     });
   } catch (error) {
     console.log(error);
@@ -82,6 +87,18 @@ async function update(req, res) {
   }
 }
 
+async function favorite(req, res) {
+  try {
+    await Listing.findByIdAndUpdate(req.params.listingId, {
+      $push: { favoritedByUsers: req.params.userId },
+    });
+    res.redirect(`/listings/${req.params.listingId}`);
+  } catch (error) {
+    console.log(error);
+    res.redirect("/");
+  }
+}
+
 module.exports = {
   index,
   new: newPage,
@@ -90,4 +107,5 @@ module.exports = {
   delete: deleteListing,
   edit,
   update,
+  favorite,
 };
