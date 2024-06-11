@@ -18,4 +18,6 @@ router.put("/:listingId", listingCtrl.update);
 
 router.post("/:listingId/favorited-by/:userId", listingCtrl.favorite);
 
+router.delete("/:listingId/favorited-by/:userId", listingCtrl.unfavorite);
+
 module.exports = router;

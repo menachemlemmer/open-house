@@ -99,6 +99,18 @@ async function favorite(req, res) {
   }
 }
 
+async function unfavorite(req, res) {
+  try {
+    await Listing.findByIdAndUpdate(req.params.listingId, {
+      $pull: { favoritedByUsers: req.params.userId },
+    });
+    res.redirect(`/listings/${req.params.listingId}`);
+  } catch (error) {
+    console.log(error);
+    res.redirect("/");
+  }
+}
+
 module.exports = {
   index,
   new: newPage,
@@ -108,4 +120,5 @@ module.exports = {
   edit,
   update,
   favorite,
+  unfavorite,
 };
