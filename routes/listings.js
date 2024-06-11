@@ -12,4 +12,8 @@ router.get("/:listingId", listingCtrl.show);
 
 router.delete("/:listingId", listingCtrl.delete);
 
+router.get("/:listingId/edit", listingCtrl.edit);
+
+router.put("/:listingId", listingCtrl.update);
+
 module.exports = router;

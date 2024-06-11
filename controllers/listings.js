@@ -55,10 +55,39 @@ async function deleteListing(req, res) {
   }
 }
 
+async function edit(req, res) {
+  try {
+    const currentListing = await Listing.findById(req.params.listingId);
+    res.render("listings/edit.ejs", {
+      listing: currentListing,
+    });
+  } catch (error) {
+    console.log(error);
+    res.redirect("/");
+  }
+}
+
+async function update(req, res) {
+  try {
+    const currentListing = await Listing.findById(req.params.listingId);
+    if (currentListing.owner.equals(req.session.user._id)) {
+      await currentListing.updateOne(req.body);
+      res.redirect("/listings");
+    } else {
+      res.send("You do not have permission to do that");
+    }
+  } catch (error) {
+    console.log(error);
+    res.redirect("/");
+  }
+}
+
 module.exports = {
   index,
   new: newPage,
   create,
   show,
   delete: deleteListing,
+  edit,
+  update,
 };
